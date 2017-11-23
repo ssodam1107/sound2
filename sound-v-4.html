@@ -1,0 +1,96 @@
+
+<!doctype html>
+<head>
+	<title>SD Web Audio 4th</title>
+	<script src="./soundV.js"></script>
+	<style>
+		html,body,div,img{margin:0; padding:0;}
+		
+		.circle{ width:500px; height:500px; background:yellow;
+			position: absolute; left:calc(50% - 100px); top:200px;
+			animation: Moving 8s linear infinite;}
+		.circle2{ width:400px; height:200px; background:red;
+			position: absolute; left:calc(50% - 100px); top:200px;
+			animation: Moving 8s linear infinite;
+			
+		}
+		.circle3{ width:400px; height:10px; background:black;
+					position: absolute; left:calc(50% - 100px); top:200px;
+					animation: Moving 8s linear infinite;}
+		.circle4{ border-radius:100px; 
+			position: absolute; left:200px; top:200px;
+}
+
+		@keyframes Moving{
+			0%{ }
+			100%{ transform: rotate(-360deg)}
+		}
+		.circle img{width:100%; height:auto;}
+		.circle2 img{width:100%; height:auto;}
+		.circle3 img{width:100%; height:auto;}
+		.circle4 img{width:100%; height:auto;}
+	</style>
+</head>
+<body>
+	<button id="stopBut">stop</button>
+	<button id="playBut">play</button>
+	<button id="pauseBut">pause</button>&nbsp;&nbsp;&nbsp;
+	
+	<!-- 곡을 버튼으로 선택해볼께요 -->
+	<button id="play1">square</button>
+	<button id="play2">캐롤</button>
+
+	<!-- 이 버튼에 대한 스크립트는 끝에 있어요 -->
+	<input id="audio_file" type="file" accept="audio/*" />
+
+	<div class="circle" id="circle">
+		<img src="dessert39_logo2.jpg" id="cImg">
+	<div class="circle2" id="circle2">
+		<img src="dessert39.jpg" id="cImg2">
+	<div class="circle3" id="circle3">
+		<img src="dessert39.jpg" id="cImg3">
+	<div class="circle3" id="circle3">
+		<img src="dessert39.jpg" id="cImg3">
+		<!-- 자 이렇게 이미지가 들어갔죠? 이름도 cImg로 붙였어요~-->
+	</div>
+
+	<script>
+		var newSound = new SoundBH("natalia.mp3",16);
+	
+		(function loop(){ 
+ 
+			var vol = newSound.getGain() / 10; 
+			circle.style.width = vol + "px";
+			circle.style.height = vol + "px";
+			circle.style.borderRadius = vol/2 + "px";
+			circle.style.left = "calc(50% - " + (vol/2) + "px)";
+			circle.style.top = 300 - (vol/2) + "px";
+
+
+	
+			window.requestAnimationFrame(loop);	
+		})();
+
+		playBut.onclick = function(){ newSound.play();};	
+		stopBut.onclick = function(){ newSound.stop();};
+		pauseBut.onclick = function(){ newSound.pause();};
+		audio_file.onchange = function(){
+		  	newSound.change(URL.createObjectURL(this.files[0]));
+		};
+
+		//자 곡이름 버튼을 누르면
+		play1.onclick = function(){
+
+			//먼저 이미지 파일명을 바꾸고
+			cImg.setAttribute("src","dessert39_logo2.jpg");
+			//사운드도 바꿔서 재생~~
+			newSound.change("natalia.mp3");
+		};
+		
+		play2.onclick = function(){ 
+			cImg.setAttribute("src","wwa.png");
+			newSound.change("wwa.mp3");
+		};
+
+	</script>
+</body>
